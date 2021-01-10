@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using AspnetRun.Web.ViewModels;
+
+namespace TodoApp.Controllers
+{
+    [ApiController]
+    public class ProductionController : ControllerBase
+    {
+        private const int _TOTAL_FIGURES = 1000000;
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        private readonly ILogger<ProductionController> _logger;
+
+        public ProductionController(ILogger<ProductionController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpPost]
+        [Route("/getProduction")]
+        public ActionResult GetProduction(
+            [FromBody] ProductionParameterViewModel prodParameter
+        )
+        {
+            object result = "c" + prodParameter.date;
+            if (prodParameter.squares + prodParameter.triangles +
+            prodParameter.rectangles + prodParameter.circles < _TOTAL_FIGURES) {
+                return StatusCode(500, "dd");
+            }
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("/prueba")]
+        public string Prueba()
+        {
+            return "Test ok!";
+        }
+
+        [HttpGet]
+        [Route("/api/student/na")]
+        public IEnumerable<WeatherForecast> GetProduction()
+        {
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+    }
+}
+
