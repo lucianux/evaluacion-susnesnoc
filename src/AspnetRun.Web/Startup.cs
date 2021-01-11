@@ -105,6 +105,7 @@ namespace AspnetRun.Web
             services.AddScoped<IIndexPageService, IndexPageService>();
             services.AddScoped<IProductPageService, ProductPageService>();
             services.AddScoped<ICategoryPageService, CategoryPageService>();
+            services.AddScoped<IProductionAPIService, ProductionAPIService>();
 
             // Add Miscellaneous
             services.AddHttpContextAccessor();
